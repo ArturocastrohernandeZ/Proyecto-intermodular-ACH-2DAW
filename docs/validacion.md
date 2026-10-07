@@ -19,7 +19,6 @@ estas comprobaciones se instalaron fuera del repositorio.
 ## Resultados
 
 - `manage.py check`: sin problemas.
-- `manage.py migrate`: migraciones aplicadas correctamente en SQLite local.
 - `pip check`: sin incompatibilidades entre dependencias.
 - Instalación del backend desde `requirements.txt`: correcta.
 - Instalación del frontend con `npm.cmd ci`: correcta desde el archivo de bloqueo.
@@ -31,12 +30,13 @@ estas comprobaciones se instalaron fuera del repositorio.
 - Reintento después del fallo: la interfaz volvió a mostrar la conexión correcta.
 - Vista móvil de 390 píxeles: sin desbordamiento horizontal.
 - Capturas del backend, frontend y móvil guardadas en `docs/capturas/`.
-- Git ignora `.env`, `.venv/`, `node_modules/`, `dist/` y la base SQLite.
+- Git ignora `.env`, `.venv/`, `node_modules/`, `dist/` y los archivos de datos locales.
 - La clave local de Django no aparece en los archivos publicables ni en la compilación del frontend.
 
 ## Límites de esta validación
 
 La prueba se realizó en este equipo; aún debe hacerse la revisión cruzada
 desde un clon en otro equipo. No se ha preparado un despliegue de producción
-ni conectado Supabase. Las contribuciones de otros integrantes y la publicación
+ni conectado Supabase. Usaremos Supabase/PostgreSQL y su integración se implementará
+más adelante. Las contribuciones de otros integrantes y la publicación
 de la entrega en GitHub deben realizarse por sus responsables.

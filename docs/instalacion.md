@@ -12,8 +12,8 @@ La guía para reproducir el arranque desde cero está en el [README](../README.m
 2. Se añadió `python-dotenv` para leer `.env` desde la raíz del proyecto.
 3. Se preparó `.env.example` sin claves reales y un script para generar la clave
    de Django en el archivo local `.env` sin imprimirla.
-4. Se configuró SQLite para el arranque local y se aplicaron las migraciones
-   de las aplicaciones internas de Django. No hay seeders ni modelos de negocio.
+4. Se dejó pendiente la integración de Supabase/PostgreSQL. El endpoint de prueba
+   no necesita una base de datos, migraciones ni seeders.
 5. Se mantuvo `/` con «hola mundo» y se añadió `/api/health/` con `JsonResponse`.
 6. Se creó el frontend React con Vite y una pantalla que consulta ese endpoint.
 7. Se configuró el proxy `/api` de Vite para comunicar los puertos 5173 y 8000.
@@ -63,7 +63,7 @@ Supabase/PostgreSQL queda pendiente de integración en un hito posterior.
 
 ## Git y entrega
 
-No se incluyen los directorios de dependencias, los secretos ni SQLite.
+No se incluyen los directorios de dependencias, los secretos ni archivos de datos locales.
 Los archivos de requisitos y el bloqueo de npm permiten reinstalar el entorno.
 La comprobación local no sustituye la revisión cruzada con otro equipo.
 La publicación en GitHub y las contribuciones personales deben corresponder

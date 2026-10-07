@@ -12,8 +12,8 @@ funcionalidades de reservas, registro ni inicio de sesión.
 - **Python y Django:** organización del backend y gestión de peticiones.
 - **React y Vite:** interfaz mediante componentes y servidor de desarrollo.
 - **CSS:** diseño sencillo y adaptable a móviles.
-- **Supabase / PostgreSQL:** base de datos prevista para el sistema de reservas.
-  Este hito utiliza **SQLite local** para arrancar sin cuentas ni credenciales externas.
+- **Supabase / PostgreSQL:** será la base de datos del sistema de reservas.
+  Su conexión y configuración se implementarán más adelante.
 - **Git y Markdown:** control de versiones y documentación.
 
 La propuesta inicial y los motivos completos están en [Hito 0](docs/hito0.md).
@@ -32,7 +32,7 @@ README.md          Instrucciones de arranque
 ## Arranque local
 
 Los siguientes comandos están preparados para **PowerShell en Windows**.
-Necesitas **Python 3.11.9** y **Node.js 24 LTS con npm** instalados.
+Necesitas **Git**, **Python 3.11.9** y **Node.js 24 LTS con npm** instalados.
 Puedes conseguirlos en [Python](https://www.python.org/downloads/)
 y [Node.js](https://nodejs.org/en/download). Abre una terminal nueva tras instalarlos.
 
@@ -84,15 +84,11 @@ cd ..
 
 No hace falta activar el entorno virtual: los comandos usan su Python directamente.
 
-### 4. Preparar la base de datos local
+### 4. Base de datos (implementación pendiente)
 
-```powershell
-.\.venv\Scripts\python.exe backend/manage.py migrate
-```
-
-Django crea `backend/db.sqlite3` y aplica las migraciones de sus aplicaciones
-de autenticación y tipos de contenido. No hay modelos de reservas ni seeders.
-Esta base de datos local queda excluida de Git.
+Usaremos **Supabase con PostgreSQL**, pero su integración se realizará más adelante.
+En este hito no hace falta configurar una base de datos ni ejecutar migraciones
+o seeders: el endpoint de prueba devuelve una respuesta fija y no consulta datos.
 
 ### 5. Arrancar el backend
 
