@@ -1,121 +1,165 @@
 # Sistema de Reservas
 
-## Descripción
+Aplicación web para consultar disponibilidad y gestionar reservas. El objetivo es
+sustituir las reservas manuales por un sistema sencillo y organizado.
 
-Este proyecto consiste en el desarrollo de una aplicación web para gestionar un sistema de reservas de forma sencilla y organizada.
+En el **Hito 1** se prepara únicamente la base del proyecto: Django arranca,
+React consulta un endpoint de prueba y muestra su respuesta. Todavía no hay
+funcionalidades de reservas, registro ni inicio de sesión.
 
-La aplicación permitirá a los usuarios consultar la disponibilidad y realizar reservas desde una interfaz web. También permitirá gestionar la información relacionada con las reservas y los usuarios.
+## Tecnologías elegidas
 
-El objetivo principal es sustituir procesos de reserva manuales por un sistema digital más rápido, cómodo y accesible.
+- **Python y Django:** organización del backend y gestión de peticiones.
+- **React y Vite:** interfaz mediante componentes y servidor de desarrollo.
+- **CSS:** diseño sencillo y adaptable a móviles.
+- **Supabase / PostgreSQL:** será la base de datos del sistema de reservas.
+  Su conexión y configuración se implementarán más adelante.
+- **Git y Markdown:** control de versiones y documentación.
 
-El proyecto se desarrollará separando el frontend, el backend y la base de datos, facilitando así su organización y mantenimiento.
+La propuesta inicial y los motivos completos están en [Hito 0](docs/hito0.md).
 
-## Tecnologías
+## Estructura
 
-### Guía de estilo / diseño
+```text
+backend/           Django y endpoint de prueba
+frontend/          React con Vite
+docs/              Documentación y capturas de funcionamiento
+.env.example       Variables de ejemplo, sin secretos
+.gitignore         Exclusiones de Git
+README.md          Instrucciones de arranque
+```
 
-Para el diseño de la aplicación utilizaremos **CSS** junto con los componentes creados en React.
+## Arranque local
 
-Buscaremos una interfaz sencilla, limpia e intuitiva, de forma que los usuarios puedan consultar y realizar reservas fácilmente.
+Los siguientes comandos están preparados para **PowerShell en Windows**.
+Necesitas **Git**, **Python 3.11.9** y **Node.js 24 LTS con npm** instalados.
+Puedes conseguirlos en [Python](https://www.python.org/downloads/)
+y [Node.js](https://nodejs.org/en/download). Abre una terminal nueva tras instalarlos.
 
-La aplicación tendrá un diseño responsive para poder utilizarse correctamente tanto desde ordenadores como desde dispositivos móviles.
+### 1. Clonar el repositorio
 
-### Backend
+```powershell
+git clone https://github.com/ArturocastrohernandeZ/Proyecto-intermodular-ACH-2DAW.git
+cd Proyecto-intermodular-ACH-2DAW
+```
 
-Para el backend utilizare **Python con Django**.
+Si ya tienes el proyecto descargado, abre la terminal en su carpeta raíz.
 
-He elegido Python porque es un lenguaje que permite desarrollar aplicaciones de forma clara y organizada.
+### 2. Configurar las variables de entorno
 
-Django será el framework encargado de gestionar la lógica de la aplicación, las peticiones realizadas desde el frontend y la comunicación con la base de datos.
+```powershell
+Copy-Item .env.example .env
+python backend/configure_env.py
+```
 
-También me permitirá organizar el backend en diferentes aplicaciones y mantener separadas las distintas partes del proyecto.
+Haz la copia solo la primera vez: sobrescribiría un `.env` existente.
+El script genera una clave aleatoria local y la escribe directamente en `.env`,
+sin mostrarla. Si ya hay una clave, la conserva.
 
-### Frontend
+| Variable | Qué debes poner |
+| --- | --- |
+| `DJANGO_SECRET_KEY` | La genera el script. No la publiques ni la copies en capturas. |
+| `DJANGO_DEBUG` | `True` para esta prueba local. |
+| `DJANGO_ALLOWED_HOSTS` | `localhost,127.0.0.1` para acceder desde tu equipo. |
+| `BACKEND_URL` | `http://127.0.0.1:8000`, dirección del backend para el proxy de Vite. |
 
-Para desarrollar el frontend utilizare **React**.
+No hacen falta claves de Supabase para este hito.
 
-React me permitirá crear la interfaz mediante componentes reutilizables. De esta forma podre separar elementos como formularios, reservas, usuarios y otros componentes de la aplicación.
+### 3. Instalar las dependencias
 
-Para preparar y ejecutar el proyecto React utilizare **Vite**, ya que ofrece un entorno de desarrollo sencillo y rápido.
+Desde la raíz, prepara el backend:
 
-El frontend será el encargado de comunicarse con el backend para consultar, crear, modificar o cancelar reservas.
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r backend/requirements.txt
+```
 
-### Base de datos
+Después instala el frontend y vuelve a la raíz:
 
-Utilizare **Supabase** como plataforma para gestionar la base de datos.
+```powershell
+cd frontend
+npm.cmd ci
+cd ..
+```
 
-Supabase utiliza **PostgreSQL**, una base de datos relacional adecuada para nuestro proyecto, ya que tendre información relacionada entre sí, como usuarios y reservas.
+No hace falta activar el entorno virtual: los comandos usan su Python directamente.
 
-Una base de datos relacional me permitirá mantener los datos organizados mediante tablas y establecer relaciones entre ellas.
+### 4. Base de datos (implementación pendiente)
 
-Entre los principales datos que almacenaremos estarán:
+Usaremos **Supabase con PostgreSQL**, pero su integración se realizará más adelante.
+En este hito no hace falta configurar una base de datos ni ejecutar migraciones
+o seeders: el endpoint de prueba devuelve una respuesta fija y no consulta datos.
 
-- Usuarios.
-- Reservas.
-- Fechas y horarios.
-- Información necesaria para gestionar la disponibilidad.
+### 5. Arrancar el backend
 
-### Documentación
+En una terminal situada en la raíz:
 
-La documentación principal del proyecto se realizará utilizando **Markdown** dentro del repositorio.
+```powershell
+.\.venv\Scripts\python.exe backend/manage.py runserver 127.0.0.1:8000
+```
 
-El fichero `README.md` contendrá la información general del proyecto, las tecnologías utilizadas y las decisiones principales tomadas durante el desarrollo.
+Déjala abierta. El backend queda en **http://127.0.0.1:8000/**.
 
-También podre utilizar la documentación generada para los diferentes servicios o endpoints del backend a medida que avance el proyecto.
+- `/` devuelve `hola mundo`.
+- `/api/health/` devuelve `{"status": "ok"}` con código HTTP 200.
 
-### Librerías y dependencias
+La respuesta JSON se genera con Django directamente; no necesita Django REST Framework.
 
-Durante el desarrollo utilizare diferentes librerías y dependencias necesarias para React y Django.
+### 6. Arrancar el frontend
 
-Entre las principales se encontrarán:
+Abre **otra terminal**, también en la raíz:
 
-- **Django** para desarrollar el backend.
-- **React** para desarrollar la interfaz.
-- **Vite** para crear y ejecutar el proyecto frontend.
-- Las dependencias necesarias para conectar Django con PostgreSQL/Supabase.
-- Librerías adicionales para validación, autenticación o testing si son necesarias durante el desarrollo.
+```powershell
+cd frontend
+npm.cmd run dev
+```
 
-Las dependencias concretas se irán añadiendo conforme avance el proyecto.
+Déjala abierta. El frontend queda en **http://127.0.0.1:5173/**.
+Pulsa `Ctrl+C` en cada terminal cuando quieras detener los servidores.
 
-### Control de versiones
+### 7. Comprobar que funciona
 
-Utilizare **Git** para controlar las diferentes versiones del proyecto y **GitHub** para almacenar el repositorio.
+1. Abre http://127.0.0.1:8000/api/health/ y comprueba la respuesta JSON.
+2. Abre http://127.0.0.1:5173/ y comprueba que aparece
+   **«Conexión correcta con el backend»** y la respuesta recibida.
+3. Pulsa **«Comprobar de nuevo»** para repetir la petición.
 
-La rama principal del proyecto será:
+React solicita `/api/health/` al servidor Vite. Su proxy reenvía la petición
+a Django en el puerto 8000 y devuelve la respuesta al navegador.
+Este proxy es para desarrollo local; el despliegue se preparará en otro hito.
 
-`main`
+Para comprobar la compilación del frontend:
 
-Para desarrollar nuevas funcionalidades utilizare ramas separadas. Algunos ejemplos serían:
+```powershell
+cd frontend
+npm.cmd run build
+cd ..
+```
 
-`feature/sistema-reservas`
+## Dependencias y secretos
 
-`feature/login`
+**No se suben a Git** `.venv/`, `node_modules/`, `.env`, bases de datos locales,
+claves privadas ni archivos compilados. Las capturas tampoco deben mostrar secretos.
 
-`feature/interfaz`
+**Sí se incluyen** `requirements.txt`, `package.json`, `package-lock.json` y
+`.env.example`: describen cómo preparar el entorno, sin incluir las dependencias
+instaladas ni las credenciales reales.
 
-Para corregir errores podre utilizar ramas como:
+No pongas secretos en variables con el prefijo `VITE_`: Vite las puede exponer
+al navegador. El frontend no necesita la clave de Django.
 
-`fix/error-reserva`
+Antes de subir cambios, revisa `git status` y los archivos seleccionados.
+`.gitignore` no protege un secreto que ya haya sido añadido anteriormente a Git.
 
-Los commits tendrán mensajes cortos y descriptivos que permitan identificar fácilmente los cambios realizados.
+## Documentación y trabajo con Git
 
-Ejemplos:
+La instalación, las capturas y los problemas resueltos están en
+[docs/instalacion.md](docs/instalacion.md).
 
-`feat: añadir formulario de reservas`
+Se utiliza `main` para la versión estable y `develop` para desarrollo.
+Las funcionalidades pueden trabajarse en ramas `feature/...` y las correcciones
+en `fix/...`. Los commits deben describir los cambios reales y cada integrante
+debe realizar sus propias contribuciones.
 
-`fix: corregir validación de fecha`
-
-`docs: actualizar README`
-
-Cuando una funcionalidad esté terminada y comprobada, su rama podrá fusionarse con `main`.
-
-## Estructura del proyecto
-
-El proyecto estará dividido principalmente en dos partes:
-
-- **Frontend:** aplicación desarrollada con React y Vite.
-- **Backend:** aplicación desarrollada con Python y Django.
-
-La información de usuarios y reservas será almacenada en PostgreSQL mediante Supabase.
-
-Esta separación permitirá mantener el código más organizado y facilitará el desarrollo del proyecto.
+Antes de la entrega, otro equipo debe clonar el repositorio y seguir este README.
+El repositorio de GitHub debe estar actualizado y ser accesible para el profesor.
