@@ -1,0 +1,2 @@
+# Python==3.11.9 (version del interprete; no se instala con pip)
+Django==5.2.18
