@@ -1,3 +1,26 @@
 .venv/
+venv/
 __pycache__/
 *.py[cod]
+
+# Variables y credenciales locales
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Dependencias y compilaciones del frontend
+node_modules/
+dist/
+
+# Archivos generados por Django
+*.sqlite3
+*.sqlite3-journal
+backend/media/
+backend/staticfiles/
+
+# Archivos locales del editor y registros
+.vscode/
+.idea/
+*.log
