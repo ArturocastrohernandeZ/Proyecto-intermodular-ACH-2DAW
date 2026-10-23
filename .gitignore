@@ -1,24 +1,18 @@
+# Entornos y dependencias locales
+.piapp-env/
 .venv/
 venv/
+
+# Python
 __pycache__/
 *.py[cod]
 
-# Variables y credenciales locales
+# Configuración privada y datos locales
 .env
 .env.*
 !.env.example
-*.pem
-*.key
+*.sqlite3
+*.sqlite3-journal
 
-# Dependencias y compilaciones del frontend
-node_modules/
-dist/
-
-# Archivos generados por Django
-backend/media/
-backend/staticfiles/
-
-# Archivos locales del editor y registros
-.vscode/
-.idea/
+# Archivos generados durante las comprobaciones
 *.log
