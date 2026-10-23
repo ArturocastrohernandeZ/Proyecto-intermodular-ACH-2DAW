@@ -1,165 +1,105 @@
-# Sistema de Reservas
+# Pilates=Life
 
-Aplicación web para consultar disponibilidad y gestionar reservas. El objetivo es
-sustituir las reservas manuales por un sistema sencillo y organizado.
+Sistema de reservas, notificaciones y facturación para un estudio de pilates clásico.
 
-En el **Hito 1** se prepara únicamente la base del proyecto: Django arranca,
-React consulta un endpoint de prueba y muestra su respuesta. Todavía no hay
-funcionalidades de reservas, registro ni inicio de sesión.
+**Autor:** Arturo Castro Hernández  
+**Proyecto:** Proyecto intermodular — 2.º DAW
 
-## Tecnologías elegidas
+## Descripción
 
-- **Python y Django:** organización del backend y gestión de peticiones.
-- **React y Vite:** interfaz mediante componentes y servidor de desarrollo.
-- **CSS:** diseño sencillo y adaptable a móviles.
-- **Supabase / PostgreSQL:** será la base de datos del sistema de reservas.
-  Su conexión y configuración se implementarán más adelante.
-- **Git y Markdown:** control de versiones y documentación.
+Pilates=Life será una aplicación web para centralizar la gestión de un estudio de
+pilates clásico. Permitirá consultar las clases disponibles, elegir una sesión con
+un profesor concreto, reservar una plaza y recibir confirmaciones, recordatorios y
+avisos de cambios por correo electrónico o Telegram.
 
-La propuesta inicial y los motivos completos están en [Hito 0](docs/hito0.md).
+También incorporará la gestión de clientes, la emisión de facturas básicas y el
+registro de cobros. Su objetivo es sustituir la información dispersa entre agendas,
+mensajes y registros manuales por un sistema organizado que reduzca duplicidades,
+errores de aforo y dificultades de comunicación.
 
-## Estructura
+## Objetivos
 
-```text
-backend/           Django y endpoint de prueba
-frontend/          React con Vite
-docs/              Documentación y capturas de funcionamiento
-.env.example       Variables de ejemplo, sin secretos
-.gitignore         Exclusiones de Git
-README.md          Instrucciones de arranque
-```
+- Ofrecer un calendario con actividades, profesores, horarios, precios y plazas disponibles.
+- Permitir que cada cliente reserve, cancele y consulte sus propias reservas.
+- Facilitar la elección de un profesor concreto al seleccionar una sesión.
+- Controlar el aforo y evitar reservas duplicadas y solapamientos del profesorado.
+- Enviar notificaciones con asunto y mensaje por correo electrónico o Telegram.
+- Gestionar clientes, facturas, cobros parciales y saldos pendientes.
+- Proporcionar una zona de administración protegida por roles y una interfaz adaptable a móvil y ordenador.
 
-## Arranque local
+## Tecnologías previstas
 
-Los siguientes comandos están preparados para **PowerShell en Windows**.
-Necesitas **Git**, **Python 3.11.9** y **Node.js 24 LTS con npm** instalados.
-Puedes conseguirlos en [Python](https://www.python.org/downloads/)
-y [Node.js](https://nodejs.org/en/download). Abre una terminal nueva tras instalarlos.
+La arquitectura del proyecto seguirá las tecnologías definidas en el anteproyecto de ClickUp:
 
-### 1. Clonar el repositorio
+| Área | Tecnologías | Uso previsto |
+| --- | --- | --- |
+| Backend | Python y Django | Lógica de negocio, autenticación, permisos y administración. |
+| API | Django REST Framework | Comunicación entre el backend y el frontend mediante una API. |
+| Frontend | React, JavaScript, HTML y CSS | Calendario, reservas y pantallas de gestión mediante una interfaz adaptable. |
+| Base de datos | PostgreSQL | Almacenamiento relacional con las relaciones y restricciones del modelo. |
+| Entorno de ejecución | Docker y Docker Compose | Organización de los servicios de frontend, backend y base de datos. |
+| Notificaciones | SMTP y Telegram Bot API | Envío de correos y mensajes de confirmación, recordatorio y cambios. |
+| Tareas programadas | Celery y Redis | Programación de recordatorios, envíos en segundo plano y control de reintentos. |
+| Control de versiones | Git y GitHub | Seguimiento de cambios y alojamiento del repositorio. |
+| Documentación | Markdown y ClickUp | Documentación del repositorio, anteproyecto y planificación. |
 
-```powershell
-git clone https://github.com/ArturocastrohernandeZ/Proyecto-intermodular-ACH-2DAW.git
-cd Proyecto-intermodular-ACH-2DAW
-```
+Las versiones concretas de las herramientas se fijarán al iniciar el desarrollo autorizado.
 
-Si ya tienes el proyecto descargado, abre la terminal en su carpeta raíz.
+## Usuarios y administración
 
-### 2. Configurar las variables de entorno
+- **Cliente:** consultará las sesiones, elegirá profesor y gestionará sus propias reservas.
+  Podrá consultar sus facturas y cobros y seleccionar su canal de notificación.
+- **Profesor:** consultará las sesiones asignadas y las reservas correspondientes,
+  con acceso a la información necesaria para impartir sus clases.
+- **Administración:** gestionará clientes, profesores, categorías, actividades,
+  sesiones, reservas, notificaciones, facturas y cobros.
 
-```powershell
-Copy-Item .env.example .env
-python backend/configure_env.py
-```
+La zona de gestión requerirá autenticación y permisos comprobados en el backend.
+Cada cliente tendrá acceso únicamente a sus propios datos y documentos.
 
-Haz la copia solo la primera vez: sobrescribiría un `.env` existente.
-El script genera una clave aleatoria local y la escribe directamente en `.env`,
-sin mostrarla. Si ya hay una clave, la conserva.
+## Modelo de datos
 
-| Variable | Qué debes poner |
-| --- | --- |
-| `DJANGO_SECRET_KEY` | La genera el script. No la publiques ni la copies en capturas. |
-| `DJANGO_DEBUG` | `True` para esta prueba local. |
-| `DJANGO_ALLOWED_HOSTS` | `localhost,127.0.0.1` para acceder desde tu equipo. |
-| `BACKEND_URL` | `http://127.0.0.1:8000`, dirección del backend para el proxy de Vite. |
+El modelo inicial contempla estas entidades:
 
-No hacen falta claves de Supabase para este hito.
+- **Usuario:** cuenta de autenticación y permisos.
+- **Cliente:** datos personales, NIF y correo electrónico únicos, y preferencias de notificación.
+- **Profesor:** perfil del docente y sus sesiones asignadas.
+- **Categoria:** clasificación de actividades y subcategorías.
+- **Actividad:** modalidad del catálogo, descripción, duración habitual y precio base.
+- **SesionClase:** clase concreta con actividad, profesor, fecha, horario, aforo, precio y estado.
+- **Reserva:** relación entre un cliente y una sesión, con fecha de creación y estado.
+- **Notificacion:** destinatario, reserva opcional, asunto, mensaje, canal, fechas y estado de envío.
+- **Factura:** cliente, número de factura, concepto, fecha y total.
+- **Cobro:** factura, fecha e importe recibido.
 
-### 3. Instalar las dependencias
+La actividad se separará de la sesión programada: el cliente elegirá un profesor
+al reservar una sesión impartida por ese docente. Cada factura podrá tener varios
+cobros para admitir pagos parciales. Las relaciones protegidas conservarán los
+clientes con facturas y las facturas con cobros.
 
-Desde la raíz, prepara el backend:
+El esquema E/R completo está incluido **como imagen** en el anteproyecto de ClickUp,
+junto con los campos, las cardinalidades y las reglas principales del modelo.
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r backend/requirements.txt
-```
+## Alcance inicial
 
-Después instala el frontend y vuelve a la raíz:
+La propuesta cubrirá un único estudio, con reservas y cancelaciones, elección de
+profesor, avisos, administración y facturación básica con registro de cobros.
+El saldo pendiente se calculará como el total de la factura menos la suma de sus cobros.
 
-```powershell
-cd frontend
-npm.cmd ci
-cd ..
-```
+Las pasarelas de pago, los bonos, las listas de espera, la contabilidad completa
+y la facturación electrónica se considerarán posibles ampliaciones. El registro
+de cobros reflejará pagos recibidos; no realizará cargos bancarios.
 
-No hace falta activar el entorno virtual: los comandos usan su Python directamente.
+## Proyecto en ClickUp
 
-### 4. Base de datos (implementación pendiente)
+- [Proyecto Pilates=Life en ClickUp](https://app.clickup.com/1500510000002060/v/li/1500510000012546/1500510000011916?pr=1500510000010531)
+- [Anteproyecto de Pilates=Life y esquema E/R](https://app.clickup.com/1500510000002060/docs/1ampjurgd0c-552/1ampjurgd0c-52)
 
-Usaremos **Supabase con PostgreSQL**, pero su integración se realizará más adelante.
-En este hito no hace falta configurar una base de datos ni ejecutar migraciones
-o seeders: el endpoint de prueba devuelve una respuesta fija y no consulta datos.
+## Estado y aprobación
 
-### 5. Arrancar el backend
+Este README recoge la propuesta del anteproyecto y las tecnologías previstas.
 
-En una terminal situada en la raíz:
+**Fecha límite de entrega del anteproyecto:** miércoles 28 de octubre de 2026.
 
-```powershell
-.\.venv\Scripts\python.exe backend/manage.py runserver 127.0.0.1:8000
-```
-
-Déjala abierta. El backend queda en **http://127.0.0.1:8000/**.
-
-- `/` devuelve `hola mundo`.
-- `/api/health/` devuelve `{"status": "ok"}` con código HTTP 200.
-
-La respuesta JSON se genera con Django directamente; no necesita Django REST Framework.
-
-### 6. Arrancar el frontend
-
-Abre **otra terminal**, también en la raíz:
-
-```powershell
-cd frontend
-npm.cmd run dev
-```
-
-Déjala abierta. El frontend queda en **http://127.0.0.1:5173/**.
-Pulsa `Ctrl+C` en cada terminal cuando quieras detener los servidores.
-
-### 7. Comprobar que funciona
-
-1. Abre http://127.0.0.1:8000/api/health/ y comprueba la respuesta JSON.
-2. Abre http://127.0.0.1:5173/ y comprueba que aparece
-   **«Conexión correcta con el backend»** y la respuesta recibida.
-3. Pulsa **«Comprobar de nuevo»** para repetir la petición.
-
-React solicita `/api/health/` al servidor Vite. Su proxy reenvía la petición
-a Django en el puerto 8000 y devuelve la respuesta al navegador.
-Este proxy es para desarrollo local; el despliegue se preparará en otro hito.
-
-Para comprobar la compilación del frontend:
-
-```powershell
-cd frontend
-npm.cmd run build
-cd ..
-```
-
-## Dependencias y secretos
-
-**No se suben a Git** `.venv/`, `node_modules/`, `.env`, bases de datos locales,
-claves privadas ni archivos compilados. Las capturas tampoco deben mostrar secretos.
-
-**Sí se incluyen** `requirements.txt`, `package.json`, `package-lock.json` y
-`.env.example`: describen cómo preparar el entorno, sin incluir las dependencias
-instaladas ni las credenciales reales.
-
-No pongas secretos en variables con el prefijo `VITE_`: Vite las puede exponer
-al navegador. El frontend no necesita la clave de Django.
-
-Antes de subir cambios, revisa `git status` y los archivos seleccionados.
-`.gitignore` no protege un secreto que ya haya sido añadido anteriormente a Git.
-
-## Documentación y trabajo con Git
-
-La instalación, las capturas y los problemas resueltos están en
-[docs/instalacion.md](docs/instalacion.md).
-
-Se utiliza `main` para la versión estable y `develop` para desarrollo.
-Las funcionalidades pueden trabajarse en ramas `feature/...` y las correcciones
-en `fix/...`. Los commits deben describir los cambios reales y cada integrante
-debe realizar sus propias contribuciones.
-
-Antes de la entrega, otro equipo debe clonar el repositorio y seguir este README.
-El repositorio de GitHub debe estar actualizado y ser accesible para el profesor.
+El desarrollo de la aplicación comenzará únicamente después de obtener el visto
+bueno del equipo docente al anteproyecto presentado.
