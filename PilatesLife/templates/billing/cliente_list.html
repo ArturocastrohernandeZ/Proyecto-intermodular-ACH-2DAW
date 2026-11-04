@@ -1,0 +1,21 @@
+{% extends "common/base_intranet.html" %}
+
+{% block main_content %}
+<div class="container">
+    <h1>Lista de clientes</h1>
+    <ul class="list-group mt-3">
+    <!-- UD3.8b: muestra solo los clientes de la página actual. -->
+    {% for cliente in page_obj %}
+        <a href="{% url 'cliente_detail' pk=cliente.id %}" class="list-group-item list-group-item-action">{{ cliente }}</a>
+    {% empty %}
+        <p>No existen clientes.</p>
+    {% endfor %}
+    </ul>
+    <!-- UD3.8b: navegación entre páginas. -->
+    {% if is_paginated %}
+        {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">Anterior</a>{% endif %}
+        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+        {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">Siguiente</a>{% endif %}
+    {% endif %}
+</div>
+{% endblock main_content %}

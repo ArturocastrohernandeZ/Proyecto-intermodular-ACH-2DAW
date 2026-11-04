@@ -1,0 +1,10 @@
+{% extends "common/base_intranet.html" %}
+
+{% block main_content %}
+<!-- UD3.8a: detalle de una reserva. -->
+<h1>Detalle de la reserva</h1>
+<p>Cliente: {{ object.cliente }}</p>
+<p>Sesión: {{ object.sesion }}</p>
+<p>Fecha de creación: {{ object.fecha_creacion }}</p>
+<p>Estado: {{ object.get_estado_display }}</p>
+{% endblock main_content %}

@@ -1,0 +1,20 @@
+{% extends "common/base_intranet.html" %}
+
+{% block main_content %}
+<!-- UD3.8a: lista de actividades. -->
+<h1>Lista de actividades</h1>
+<ul>
+    {% for actividad in page_obj %}
+        <li><a href="{% url 'core:actividad_detail' actividad.pk %}">{{ actividad }}</a></li>
+    {% empty %}
+        <li>No hay actividades.</li>
+    {% endfor %}
+</ul>
+
+<!-- UD3.8b: navegación entre páginas. -->
+{% if is_paginated %}
+    {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">Anterior</a>{% endif %}
+    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+    {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">Siguiente</a>{% endif %}
+{% endif %}
+{% endblock main_content %}

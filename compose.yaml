@@ -1,0 +1,8 @@
+# UD3.2h: servicio web del proyecto.
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./PilatesLife:/code

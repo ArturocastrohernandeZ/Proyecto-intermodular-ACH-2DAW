@@ -1,0 +1,65 @@
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+      <div class="position-sticky pt-3">
+        <!-- UD3.8a: abre la página inicial del panel. -->
+        <a href="{% url 'panel' %}" class="nav-link" aria-current="page">
+          <span class="text-secondary fs-4">Panel</span>
+        </a>
+        <hr>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <!-- UD3.8b: abre la lista de clientes de facturación. -->
+            <a href="{% url 'cliente_list' %}" class="nav-link" aria-current="page">
+              <span class="text-secondary">Clientes</span>
+            </a>
+          </li>
+          <li>
+            <!-- UD3.8b: abre la lista de facturas. -->
+            <a href="{% url 'factura_list' %}" class="nav-link">
+              <span class="text-secondary">Facturas</span>
+            </a>
+          </li>
+          <li>
+            <!-- UD3.8b: abre la lista de cobros registrados. -->
+            <a href="{% url 'cobro_list' %}" class="nav-link">
+              <span class="text-secondary">Cobros</span>
+            </a>
+          </li>
+          <hr>
+          <!-- UD3.8a: añado esto para endulzar un poco esta parte. -->
+          <li>
+            <!-- UD3.8a: muestra las actividades de Pilates disponibles. -->
+            <a href="{% url 'core:actividad_list' %}" class="nav-link">
+              <span class="text-secondary">Actividades</span>
+            </a>
+          </li>
+          <li>
+            <!-- UD3.8a: muestra las categorías que agrupan las actividades. -->
+            <a href="{% url 'core:categoria_list' %}" class="nav-link">
+              <span class="text-secondary">Categorías</span>
+            </a>
+          </li>
+          <li>
+            <!-- UD3.8a: muestra los profesores registrados. -->
+            <a href="{% url 'core:profesor_list' %}" class="nav-link">
+              <span class="text-secondary">Profesores</span>
+            </a>
+          </li>
+          <li>
+            <!-- UD3.8a: muestra las clases concretas con profesor y horario. -->
+            <a href="{% url 'core:sesionclase_list' %}" class="nav-link">
+              <span class="text-secondary">Sesiones de clase</span>
+            </a>
+          </li>
+          {% if perms.core.view_reserva %}
+          <li>
+            <!-- UD3.8a: muestra las reservas solo a usuarios con permiso. -->
+            <a href="{% url 'core:reserva_list' %}" class="nav-link">
+              <span class="text-secondary">Reservas</span>
+            </a>
+          </li>
+          {% endif %}
+          <hr>
+
+        </ul>
+      </div>
+    </nav>

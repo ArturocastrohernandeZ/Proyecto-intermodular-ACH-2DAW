@@ -23,6 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# UD3.2e: clave secreta configurable mediante el entorno.
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') or get_random_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -40,6 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # UD3.2f: aplicaciones del proyecto.
+    'common.apps.CommonConfig',
+    'core.apps.CoreConfig',
+    'billing.apps.BillingConfig',
 ]
 
 MIDDLEWARE = [
@@ -57,7 +63,7 @@ ROOT_URLCONF = 'PilatesLife.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        #3.2 g
+        # UD3.2g: carpeta de plantillas del proyecto.
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -106,10 +112,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-# 3.2 e
+# UD3.2e: idioma y zona horaria del proyecto.
 LANGUAGE_CODE = 'es'
 
-# 3.2 e 
 TIME_ZONE = 'Europe/Madrid'
 
 USE_I18N = True
@@ -120,9 +125,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-# 3.2 e 
+# UD3.2e: configuración de archivos estáticos.
 STATIC_URL = '/static/'
-# 3.2 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
@@ -130,8 +134,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#3.2 e 
+# UD3.2e: configuración de archivos multimedia.
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-#3.2 e 
 MEDIA_URL = '/media/'

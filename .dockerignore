@@ -1,0 +1,8 @@
+# UD3.2h: archivos excluidos de la imagen de Docker.
+.git/
+.piapp-env/
+**/__pycache__/
+**/*.pyc
+.env
+.env.*
+PilatesLife/db.sqlite3

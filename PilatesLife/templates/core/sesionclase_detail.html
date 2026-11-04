@@ -1,0 +1,12 @@
+{% extends "common/base_intranet.html" %}
+
+{% block main_content %}
+<!-- UD3.8a: detalle de una sesión de clase. -->
+<h1>Sesión de {{ object.actividad }}</h1>
+<p>Profesor: {{ object.profesor }}</p>
+<p>Inicio: {{ object.fecha_inicio }}</p>
+<p>Fin: {{ object.fecha_fin }}</p>
+<p>Aforo: {{ object.aforo }}</p>
+<p>Precio: {{ object.precio }} €</p>
+<p>Estado: {{ object.get_estado_display }}</p>
+{% endblock main_content %}

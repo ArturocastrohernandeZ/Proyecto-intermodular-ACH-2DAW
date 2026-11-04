@@ -1,0 +1,8 @@
+{% extends "common/base_intranet.html" %}
+
+{% block main_content %}
+<!-- UD3.8a: detalle de una categoría. -->
+<h1>{{ object.nombre }}</h1>
+<p>Descripción: {{ object.descripcion }}</p>
+<p>Categoría padre: {{ object.categoria_padre|default:"Ninguna" }}</p>
+{% endblock main_content %}

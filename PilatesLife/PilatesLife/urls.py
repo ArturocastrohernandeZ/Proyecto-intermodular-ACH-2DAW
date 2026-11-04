@@ -15,8 +15,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+from django.conf import settings
+from django.conf.urls.static import static
+from billing import views as billing_views
+from common import views as common_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # UD3.8b: rutas necesarias para las listas paginadas de billing y el panel.
+    path('panel/', common_views.PanelView.as_view(), name='panel'),
+    path('cliente_list/', billing_views.ClienteListView.as_view(), name='cliente_list'),
+    path('cliente_detail/<int:pk>/', billing_views.ClienteDetailView.as_view(), name='cliente_detail'),
+    path('factura_list/', billing_views.FacturaListView.as_view(), name='factura_list'),
+    path('factura_detail/<int:pk>/', billing_views.FacturaDetailView.as_view(), name='factura_detail'),
+    path('cobro_list/', billing_views.CobroListView.as_view(), name='cobro_list'),
+    path('cobro_detail/<int:pk>/', billing_views.CobroDetailView.as_view(), name='cobro_detail'),
+    # UD3.7b: conecta las rutas de core.
+    path('clases/', include('core.urls')),
 ]
+
+# UD3.2e: servir archivos multimedia durante el desarrollo.
+if settings.DEBUG:
+    urlpatterns += static( settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

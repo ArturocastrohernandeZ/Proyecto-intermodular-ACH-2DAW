@@ -1,3 +1,4 @@
+# UD3.2h: dependencias instaladas en la imagen de Docker.
 asgiref==3.12.1
 Django==5.2.18
 sqlparse==0.6.0
