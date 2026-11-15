@@ -1,25 +1,35 @@
 {
-  "name": "despliegue",
-  "image": "mcr.microsoft.com/devcontainers/php:8.4",
-  "appPort": ["127.0.0.1:28080:8000"],
-  "containerEnv": {
-    "XDEBUG_MODE": "off"
-  },
-  "forwardPorts": [8000],
-  "portsAttributes": {
-    "8000": {
-      "label": "Backend Laravel"
+    "name": "despliegue",
+    "image": "mcr.microsoft.com/devcontainers/php:8.4",
+
+    // NUEVO: instala Node.js (versión LTS) y npm dentro del contenedor
+    "features": {
+        "ghcr.io/devcontainers/features/node:2": {
+            "version": "lts"
+        }
+    },
+
+    "containerEnv": {
+        "XDEBUG_MODE": "off"
+    },
+
+    // NUEVO: añadimos el puerto 5173 del servidor de Vite
+    "forwardPorts": [8000, 5173],
+    "portsAttributes": {
+        "8000": { "label": "Backend Laravel" },
+        "5173": { "label": "Frontend Vue" }
+    },
+
+    "postCreateCommand": "sudo git config --system --add safe.directory '*'",
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "laravel.vscode-laravel",
+                "bmewburn.vscode-intelephense-client",
+                "humao.rest-client",
+                "Vue.volar"
+            ]
+        }
     }
-  },
-  "postCreateCommand": "sudo git config --system --add safe.directory '*'",
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "laravel.vscode-laravel",
-        "bmewburn.vscode-intelephense-client",
-        "humao.rest-client",
-        "openai.chatgpt@26.1007.21434"
-      ]
-    }
-  }
 }
