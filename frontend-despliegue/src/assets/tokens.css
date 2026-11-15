@@ -1,0 +1,26 @@
+/* Design tokens de la guía de estilo Pilates Life */
+:root {
+  /* Color */
+  --color-primary: #31594D;
+  --color-on-primary: #FFFFFF;
+  --color-surface: #F7F5EE;
+  --color-on-surface: #24332E;
+  --color-error: #A93636;
+
+  /* Tipografía */
+  --font-family: 'DM Sans', system-ui, sans-serif;
+  --font-size-title: 2.5rem;
+  --font-size-body: 1rem;
+
+  /* Espaciado y forma */
+  --space-s: 8px;
+  --space-m: 16px;
+  --space-l: 24px;
+  --radius-m: 12px;
+
+  --color-primary-hover: #244338;
+  --color-border: #CFD8CF;
+  --color-control-background: #FFFFFF;
+  --color-disabled: #E7EBE5;
+  --color-on-disabled: #66726A;
+}
